@@ -6,6 +6,9 @@ namespace Capabilities
 {
     public class JumpCapability : MonoBehaviour
     {
+        [SerializeField] private Animator animator;
+        private static readonly int VerticalVelocity = Animator.StringToHash("VerticalVelocity");
+        
         [SerializeField, Range(0f, 10f)] private float jumpHeight = 3f;
         [SerializeField, Range(0, 5)] private int maxAirJumps = 0;
         [SerializeField, Range(0f, 5f)] private float downwardMovementMultiplier = 3f;
@@ -36,6 +39,9 @@ namespace Capabilities
         void Update()
         {
             _desiredJump |= _controller.input.RetrieveJumpInput();
+            
+            //Update vertical velocity for animator
+            animator.SetFloat(VerticalVelocity, Mathf.Abs(_body.velocity.y));
         }
 
         private void FixedUpdate()
@@ -44,9 +50,7 @@ namespace Capabilities
             _velocity = _body.velocity;
 
             if (_onGround)
-            {
                 _jumpPhase = 0;
-            }
 
             if (_desiredJump)
             {
