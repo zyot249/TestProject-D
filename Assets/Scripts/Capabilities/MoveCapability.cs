@@ -20,7 +20,6 @@ namespace Capabilities
         private GroundCheck _ground;
 
         private float _maxSpeedChange, _acceleration;
-        private bool _onGround;
 
         private void Awake()
         {
@@ -46,13 +45,10 @@ namespace Capabilities
 
         private void FixedUpdate()
         {
-            _onGround = _ground.OnGround;
             _velocity = _body.velocity;
 
-            _acceleration = _onGround ? maxAcceleration : maxAirAcceleration;
-            _maxSpeedChange = _acceleration * Time.deltaTime;
             _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(maxSpeed - _ground.Friction, 0f);
-            _velocity.x = Mathf.MoveTowards(_velocity.x, _desiredVelocity.x, _maxSpeedChange);
+            _velocity.x = _desiredVelocity.x;
 
             _body.velocity = _velocity;
         }
