@@ -41,7 +41,7 @@ namespace Capabilities
             _desiredJump |= _controller.input.RetrieveJumpInput();
             
             //Update vertical velocity for animator
-            animator.SetFloat(VerticalVelocity, Mathf.Abs(_body.velocity.y));
+            animator.SetFloat(VerticalVelocity, _body.velocity.y);
         }
 
         private void FixedUpdate()
